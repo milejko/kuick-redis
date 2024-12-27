@@ -8,6 +8,7 @@ use Kuick\Redis\RedisMock;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
+use function PHPUnit\Framework\assertNull;
 
 /**
  * @covers Kuick\Redis\RedisMock
@@ -37,6 +38,17 @@ class RedisMockTest extends TestCase
         assertTrue($redis->set('test2', 'abc'));
         assertEquals(['test1', 'test2'], $redis->keys());
         assertTrue($redis->flushAll());
+        assertEquals([], $redis->keys());
+    }
+
+    public function testIfCacheExpires(): void
+    {
+        $redis = new RedisMock();
+        assertTrue($redis->set('test1', 'abc', 1));
+        assertTrue($redis->set('test2', 'abc', 1));
+        assertEquals(['test1', 'test2'], $redis->keys());
+        sleep(1);//wait till expired
+        assertNull($redis->get('test2'));
         assertEquals([], $redis->keys());
     }
 }
