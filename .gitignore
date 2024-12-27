@@ -1,6 +1,6 @@
 composer.lock
 /.idea
 /.php*
-/vendor
+/vendor/
 .DS_Store
 clover.xml

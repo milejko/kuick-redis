@@ -3,8 +3,6 @@
 ######################
 IMAGE_NAME := kuickphp/redis
 
-.DEFAULT_GOAL := test
-
 .PHONY test:
 	# generate CI_TAG to avoid concurrent run collisions
 	$(eval CI_TAG := $(IMAGE_NAME):$(shell date +%s%N))
