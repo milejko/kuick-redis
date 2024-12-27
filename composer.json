@@ -1,0 +1,45 @@
+{
+    "name": "kuick/redis",
+    "type": "library",
+    "description": "Kuick Redis provides an useful client factory and the Mock for Redis",
+    "keywords": ["kuick", "redis", "redis mock"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mariusz Miłejko",
+            "email": "mariusz@milejko.pl"
+        }
+    ],
+    "require": {
+        "php": ">=8.2.0",
+        "ext-date": "*",
+        "ext-spl": "*",
+        "nyholm/dsn": "^2.0"
+    },
+    "scripts": {
+        "fix:phpcbf": "phpcbf --standard=PSR12 src tests",
+        "test:phpstan": "XDEBUG_MODE=off phpstan --level=5 --no-progress --memory-limit=512M analyse src tests",
+        "test:phpcs": "phpcs -n --standard=PSR12 ./src ./tests",
+        "test:phpmd": "phpmd src tests text cleancode,codesize,controversial,design,naming,unusedcode",
+        "test:phpunit": "XDEBUG_MODE=coverage phpunit",
+        "test:all": [
+            "@test:phpcs",
+            "@test:phpstan",
+            "@test:phpmd",
+            "@test:phpunit"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Kuick\\Redis\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kuick\\Tests\\Redis\\": "tests"
+        }
+    },
+    "require-dev": {
+        "kuick/qa-toolkit": "^1.0"
+    }
+}
