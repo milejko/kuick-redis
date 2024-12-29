@@ -4,8 +4,6 @@ namespace Kuick\Redis;
 
 class RedisMock implements RedisInterface
 {
-    private const REDIS_INFINITE_TTL = -1;
-
     private array $storage = [];
     private array $createTimes = [];
     private array $ttls = [];
@@ -20,6 +18,15 @@ class RedisMock implements RedisInterface
         $this->storage[$key] = $value;
         $this->createTimes[$key] = time();
         $this->ttls[$key] = $ttl;
+        return true;
+    }
+
+    public function persist(string $key): bool
+    {
+        if (!$this->exists($key)) {
+            return false;
+        }
+        $this->ttls[$key] = null;
         return true;
     }
 
@@ -52,7 +59,7 @@ class RedisMock implements RedisInterface
             return false;
         }
         $ttl = $this->ttls[$key];
-        if ($ttl == self::REDIS_INFINITE_TTL || $ttl === 0 || $ttl === null) {
+        if (!$ttl) {
             return $this->storage[$key];
         }
         //failed ttl

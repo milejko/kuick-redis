@@ -51,4 +51,15 @@ class RedisMockTest extends TestCase
         assertNull($redis->get('test2'));
         assertEquals([], $redis->keys());
     }
+
+    public function testPersistence(): void
+    {
+        $redis = new RedisMock();
+        assertTrue($redis->set('test', 'abc', 10));
+        assertEquals(['test'], $redis->keys());
+        //wait till expired
+        assertFalse($redis->persist('inexistent'));
+        assertTrue($redis->persist('test'));
+        assertEquals('abc', $redis->get('test'));
+    }
 }
