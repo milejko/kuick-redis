@@ -4,6 +4,8 @@ namespace Kuick\Redis;
 
 class RedisMock implements RedisInterface
 {
+    private const REDIS_INFINITE_TTL = -1;
+
     private array $storage = [];
     private array $createTimes = [];
     private array $ttls = [];
@@ -49,7 +51,10 @@ class RedisMock implements RedisInterface
         ) {
             return false;
         }
-        $ttl = ($this->ttls[$key] == 0) ? 10000000 : $this->ttls[$key];
+        $ttl = $this->ttls[$key];
+        if ($ttl == self::REDIS_INFINITE_TTL || $ttl === 0 || $ttl === null) {
+            return $this->storage[$key];
+        }
         //failed ttl
         if ((int) ($ttl + $this->createTimes[$key]) <= time()) {
             return false;
