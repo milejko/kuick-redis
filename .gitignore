@@ -3,4 +3,4 @@ composer.lock
 /.php*
 /vendor/
 .DS_Store
-clover.xml
+/clover.xml
