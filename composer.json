@@ -12,8 +12,6 @@
     ],
     "require": {
         "php": ">=8.2.0",
-        "ext-date": "*",
-        "ext-spl": "*",
         "nyholm/dsn": "^2.0"
     },
     "scripts": {
