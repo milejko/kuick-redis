@@ -60,13 +60,13 @@ class RedisMock implements RedisInterface
         }
         $ttl = $this->ttls[$key];
         if (!$ttl) {
-            return $this->storage[$key];
+            return true;
         }
         //failed ttl
         if ((int) ($ttl + $this->createTimes[$key]) <= time()) {
             return false;
         }
-        return $this->storage[$key];
+        return true;
     }
 
     public function keys(string $pattern = '*'): array
