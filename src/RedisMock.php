@@ -80,4 +80,17 @@ class RedisMock implements RedisInterface
         }
         return $keys;
     }
+
+    public function scan(?int &$iterator = null, string $pattern = '*'): array
+    {
+        $keys = $this->keys($pattern);
+        $count = count($keys);
+        $start = $iterator;
+        $end = (int) $iterator + 10;
+        if ($end > $count) {
+            $end = $count;
+        }
+        $iterator = $end;
+        return array_slice($keys, (int) $start, $end - (int) $start);
+    }
 }

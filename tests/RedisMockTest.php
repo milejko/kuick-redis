@@ -39,6 +39,9 @@ class RedisMockTest extends TestCase
         assertEquals(['test1', 'test2'], $redis->keys());
         assertTrue($redis->flushAll());
         assertEquals([], $redis->keys());
+
+        $iterator = null;
+        assertEquals($redis->scan($iterator, '*'), $redis->keys('*'));
     }
 
     public function testIfCacheExpires(): void

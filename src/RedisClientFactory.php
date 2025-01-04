@@ -40,7 +40,7 @@ class RedisClientFactory
         $redis = new Redis($options);
         //optional database selection (not empty path)
         if ($dsn->getPath()) {
-            $redis->select((int) $dsn->getPath());
+            $redis->select((int) trim($dsn->getPath(), '/'));
         }
         //optional authentication
         if ($dsn->getParameter('user') || $dsn->getParameter('pass')) {

@@ -27,4 +27,6 @@ interface RedisInterface
     public function flushAll(): bool;
 
     public function keys(string $pattern = '*'): array;
+
+    public function scan(?int &$iterator = null, string $pattern = '*'): array;
 }
