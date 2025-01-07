@@ -4,11 +4,11 @@ namespace Kuick\Tests\Redis;
 
 use PHPUnit\Framework\TestCase;
 use Kuick\Redis\RedisMock;
+use Redis;
 
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
-use function PHPUnit\Framework\assertNull;
 
 /**
  * @covers Kuick\Redis\RedisMock
@@ -26,7 +26,7 @@ class RedisMockTest extends TestCase
 
         assertTrue($redis->del('test'));
         assertFalse($redis->exists('test'));
-        assertEquals(null, $redis->get('test'));
+        assertFalse($redis->get('test'));
 
         assertTrue($redis->set('test1', 'abc'));
         assertTrue($redis->set('test2', 'abc'));
@@ -51,12 +51,13 @@ class RedisMockTest extends TestCase
         assertTrue($redis->set('test2', 'abc', 1));
         assertEquals(['test1', 'test2'], $redis->keys());
         sleep(1);//wait till expired
-        assertNull($redis->get('test2'));
+        assertFalse($redis->get('test2'));
         assertEquals([], $redis->keys());
     }
 
     public function testPersistence(): void
     {
+        new Redis();
         $redis = new RedisMock();
         assertTrue($redis->set('test', 'abc', 10));
         assertEquals(['test'], $redis->keys());

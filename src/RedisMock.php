@@ -8,12 +8,12 @@ class RedisMock implements RedisInterface
     private array $createTimes = [];
     private array $ttls = [];
 
-    public function get(string $key): ?string
+    public function get(string $key): mixed
     {
-        return $this->exists($key) ? $this->storage[$key] : null;
+        return $this->exists($key) ? $this->storage[$key] : false;
     }
 
-    public function set(string $key, ?string $value = null, int $ttl = 0): bool
+    public function set(string $key, mixed $value = null, int $ttl = 0): bool
     {
         $this->storage[$key] = $value;
         $this->createTimes[$key] = time();

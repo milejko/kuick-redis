@@ -12,11 +12,11 @@ namespace Kuick\Redis;
 
 interface RedisInterface
 {
-    public function set(string $key, ?string $value = null, int $ttl = 0): bool;
+    public function set(string $key, mixed $value = null, int $ttl = 0): bool;
 
     public function persist(string $key): bool;
 
-    public function get(string $key): ?string;
+    public function get(string $key): mixed;
 
     public function exists(string $key): bool;
 
