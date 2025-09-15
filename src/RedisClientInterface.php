@@ -10,9 +10,9 @@
 
 namespace Kuick\Redis;
 
-interface RedisInterface
+interface RedisClientInterface
 {
-    public function set(string $key, mixed $value = null, int $ttl = 0): bool;
+    public function set(string $key, mixed $value = null, ?int $ttl = null): bool;
 
     public function persist(string $key): bool;
 
@@ -28,5 +28,7 @@ interface RedisInterface
 
     public function keys(string $pattern = '*'): array;
 
-    public function scan(?int &$iterator = null, string $pattern = '*'): array;
+    public function scan(?int &$iterator = null, string $pattern = '*', int $count = 1000, ?string $type = null): array|false;
+
+    public function info(): array;
 }

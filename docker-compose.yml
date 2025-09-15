@@ -1,0 +1,14 @@
+#test runner with the Redis server for integration tests
+
+services:
+  test-runner:
+    depends_on:
+      - test-redis
+    build:
+      target: test-runner
+    image: ${CI_IMAGE_TAG}
+    volumes:
+      - ./:/var/www/html
+
+  test-redis:
+    image: redis:8.0.1

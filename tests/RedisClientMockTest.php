@@ -3,21 +3,20 @@
 namespace Kuick\Tests\Redis;
 
 use PHPUnit\Framework\TestCase;
-use Kuick\Redis\RedisMock;
-use Redis;
+use Kuick\Redis\RedisClientMock;
 
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
 
 /**
- * @covers Kuick\Redis\RedisMock
+ * @covers Kuick\Redis\RedisClientMock
  */
-class RedisMockTest extends TestCase
+class RedisClientMockTest extends TestCase
 {
     public function testIfStandardFlowWorksCorrectly(): void
     {
-        $redis = new RedisMock();
+        $redis = new RedisClientMock();
         assertFalse($redis->exists('inexisten'));
 
         assertTrue($redis->set('test', 'abc'));
@@ -46,7 +45,7 @@ class RedisMockTest extends TestCase
 
     public function testIfCacheExpires(): void
     {
-        $redis = new RedisMock();
+        $redis = new RedisClientMock();
         assertTrue($redis->set('test1', 'abc', 1));
         assertTrue($redis->set('test2', 'abc', 1));
         assertEquals(['test1', 'test2'], $redis->keys());
@@ -57,13 +56,20 @@ class RedisMockTest extends TestCase
 
     public function testPersistence(): void
     {
-        new Redis();
-        $redis = new RedisMock();
+        $redis = new RedisClientMock();
         assertTrue($redis->set('test', 'abc', 10));
         assertEquals(['test'], $redis->keys());
         //wait till expired
         assertFalse($redis->persist('inexistent'));
         assertTrue($redis->persist('test'));
         assertEquals('abc', $redis->get('test'));
+    }
+
+    public function testInfo(): void
+    {
+        $redis = new RedisClientMock();
+        $info = $redis->info();
+        assertTrue(is_array($info));
+        assertTrue(isset($info['redis_version']));
     }
 }

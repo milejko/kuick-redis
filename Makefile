@@ -4,8 +4,8 @@
 IMAGE_NAME := kuickphp/redis
 
 .PHONY test:
-	# generate CI_TAG to avoid concurrent run collisions
-	$(eval CI_TAG := $(IMAGE_NAME):$(shell date +%s%N))
-	docker build --target=test-runner --tag $(CI_TAG) .
-	docker run --rm -v ./:/var/www/html $(CI_TAG) sh -c "composer up && composer fix:phpcbf && composer test:all"
-	docker image rm $(CI_TAG)
+	$(eval CI_IMAGE_TAG := $(IMAGE_NAME):$(shell date +%s%N))
+	CI_TAG=$(CI_IMAGE_TAG) docker compose up -d --force-recreate
+	CI_TAG=$(CI_IMAGE_TAG) docker compose exec test-runner sh -c "composer up && composer fix:phpcbf && composer test:all"
+	CI_TAG=$(CI_IMAGE_TAG) docker compose down --remove-orphans
+	docker image rm $(CI_IMAGE_TAG)
