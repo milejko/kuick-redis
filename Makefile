@@ -7,4 +7,4 @@ test:
 	CI_IMAGE_TAG=$(CI_IMAGE_TAG) docker compose up -d --force-recreate
 	CI_IMAGE_TAG=$(CI_IMAGE_TAG) docker compose exec test-runner sh -c "composer up && composer fix:phpcbf && composer test:all"
 	CI_IMAGE_TAG=$(CI_IMAGE_TAG) docker compose down --remove-orphans
-	docker image rm $(CI_IMAGE_TAG)
+
