@@ -15,10 +15,7 @@ class RedisClient implements RedisClientInterface
 
     private Redis $wrappedClient;
 
-    /**
-     * @param string $dsnString
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     */
+    /** @SuppressWarnings(StaticAccess) */
     public function __construct(string $dsnString)
     {
         $dsn = DsnParser::parse($dsnString);

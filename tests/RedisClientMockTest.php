@@ -2,16 +2,16 @@
 
 namespace Kuick\Tests\Redis;
 
-use PHPUnit\Framework\TestCase;
 use Kuick\Redis\RedisClientMock;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 
+use function PHPUnit\Framework\assertArrayHasKey;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
 
-/**
- * @covers Kuick\Redis\RedisClientMock
- */
+#[CoversClass(RedisClientMock::class)]
 class RedisClientMockTest extends TestCase
 {
     public function testIfStandardFlowWorksCorrectly(): void
@@ -69,7 +69,6 @@ class RedisClientMockTest extends TestCase
     {
         $redis = new RedisClientMock();
         $info = $redis->info();
-        assertTrue(is_array($info));
-        assertTrue(isset($info['redis_version']));
+        assertArrayHasKey('redis_version', $info);
     }
 }

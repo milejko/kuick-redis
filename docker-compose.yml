@@ -6,6 +6,8 @@ services:
       - test-redis
     build:
       target: test-runner
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.5}
     image: ${CI_IMAGE_TAG}
     volumes:
       - ./:/var/www/html

@@ -3,12 +3,11 @@
 namespace Kuick\Tests\Redis;
 
 use Kuick\Redis\RedisClient;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RedisException;
 
-/**
- * @covers Kuick\Redis\RedisClient
- */
+#[CoversClass(RedisClient::class)]
 class RedisClientTest extends TestCase
 {
     public function testIfWrongRedisHostThrowsAnExceptionWithGivenDatabase(): void
@@ -91,7 +90,6 @@ class RedisClientTest extends TestCase
     {
         $redis = new RedisClient('redis://test-redis:6379/1?persistent=false');
         $info = $redis->info();
-        $this->assertIsArray($info);
         $this->assertArrayHasKey('redis_version', $info);
     }
 }
